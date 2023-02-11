@@ -1,7 +1,16 @@
-<mat-form-field >
-  <mat-label>Search Term</mat-label>
-  <input matInput type="text" [(ngModel)]="searchTerm">
-  <button *ngIf="searchTerm" matSuffix mat-icon-button aria-label="Clear" (click)="searchTerm=''">
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-form-field>
+<div>
+  <mat-form-field class="full-width">
+    <mat-label>Kelima Arama/Search Term</mat-label>
+    <span matPrefix><mat-icon>search</mat-icon></span>
+    <input matInput type="search" [(ngModel)]="searchTerm">
+  </mat-form-field>
+</div>
+
+<div>
+  <mat-list *ngIf="(terms$ | async) as terms">
+    <mat-list-item *ngFor="let term of terms">
+      <span matListItemTitle>{{term.translations.get('Türkçe')}}</span>
+      <span matListItemLine><span class="spacer"></span>{{term.english}}</span>
+    </mat-list-item>
+  </mat-list>
+</div>
