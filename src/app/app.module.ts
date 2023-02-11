@@ -25,7 +25,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {}),
     NoopAnimationsModule,
     SharedModule,
     EffectsModule.forRoot([
