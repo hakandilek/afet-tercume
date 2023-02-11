@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "afet-tercume": {
+    "afet-terim": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/afet-tercume",
+            "outputPath": "dist/afet-terim",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "afet-tercume:build:production"
+              "browserTarget": "afet-terim:build:production"
             },
             "development": {
-              "browserTarget": "afet-tercume:build:development"
+              "browserTarget": "afet-terim:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "afet-tercume:build"
+            "browserTarget": "afet-terim:build"
           }
         },
         "test": {
