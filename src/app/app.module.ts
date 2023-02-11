@@ -24,7 +24,6 @@ import { TermListComponent } from './terms/term-list.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {}),
     NoopAnimationsModule,
     SharedModule,
     EffectsModule.forRoot([

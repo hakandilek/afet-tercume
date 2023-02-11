@@ -1,11 +1,12 @@
-import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import {
-  createReducer} from '@ngrx/store';
+  createReducer, on} from '@ngrx/store';
 import { Term } from '../term';
+import { termsActionTypes } from './terms.actions';
 
 export const termsFeatureKey = 'terms';
 
-export interface State {
+export interface State extends EntityState<Term> {
 
 }
 
@@ -16,6 +17,9 @@ export const initialState: State = adapter.getInitialState({
 
 export const reducer = createReducer(
   initialState,
+  on(termsActionTypes.termsLoaded,
+    (state, action) => adapter.setAll(action.terms, state)
+  ),
 );
 
 export const {
