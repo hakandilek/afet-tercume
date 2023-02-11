@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import { State } from '../reducers';
 import { loadTerms } from './reducer/terms.actions';
-import { selectAllTerms } from './reducer/terms.selector';
+import { selectWithSearchTerm } from './reducer/terms.selector';
 import { Term } from './term';
 
 @Component({
@@ -18,15 +18,16 @@ export class TermListComponent implements OnInit {
   constructor(
     private store: Store<State>,
   ) {
-    this.terms$ = this.store.select(selectAllTerms).pipe(map((terms) => {
-      const sortedTerms = terms.slice().sort((a, b) => {
-        const t1 = a.translations.get('Türkçe');
-        const t2 = b.translations.get('Türkçe');
-        return this.compareNormalized(t1, t2, 'tr');
-      });
-      console.log('sorting finished');
-      return sortedTerms;
-    }));
+    this.terms$ = this.store.select(selectWithSearchTerm("ar"))
+      .pipe(map((terms) => {
+        const sortedTerms = terms.slice().sort((a, b) => {
+          const t1 = a.translations.get('Türkçe');
+          const t2 = b.translations.get('Türkçe');
+          return this.compareNormalized(t1, t2, 'tr');
+        });
+        console.log('sorting finished');
+        return sortedTerms;
+      }));
   }
 
   ngOnInit(): void {
