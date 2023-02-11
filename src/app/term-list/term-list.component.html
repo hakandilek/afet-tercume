@@ -1,0 +1,7 @@
+<mat-form-field >
+  <mat-label>Search Term</mat-label>
+  <input matInput type="text" [(ngModel)]="searchTerm">
+  <button *ngIf="searchTerm" matSuffix mat-icon-button aria-label="Clear" (click)="searchTerm=''">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
