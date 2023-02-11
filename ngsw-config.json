@@ -26,5 +26,20 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "sheet-api",
+      "urls": [
+        "https://sheets.googleapis.com/v4/spreadsheets/**"
+      ],
+      "cacheConfig": {
+        "maxSize": 10,
+        "maxAge": "1d",
+        "timeout": "10s",
+        "strategy": "performance",
+        "cacheOpaqueResponses": true
+      }
+    }
   ]
 }
