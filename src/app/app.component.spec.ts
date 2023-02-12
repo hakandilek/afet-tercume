@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
 import { SharedModule } from './shared/shared.module';
+import { reducer } from './terms/reducer';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -9,9 +12,11 @@ describe('AppComponent', () => {
       imports: [
         RouterTestingModule,
         SharedModule,
+        StoreModule.forRoot(reducer),
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        HeaderComponent,
       ],
     }).compileComponents();
   });
@@ -22,16 +27,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'afet-terim'`, () => {
+  it(`should have as title 'Afet Terimleri'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('afet-terim');
+    expect(app.title).toEqual('Afet Terimleri');
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('afet-terim app is running!');
-  });
 });

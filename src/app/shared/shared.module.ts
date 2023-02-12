@@ -11,11 +11,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    NoopAnimationsModule,
     MatCardModule,
     MatChipsModule,
     MatIconModule,
@@ -29,6 +31,7 @@ import { MatInputModule } from '@angular/material/input';
     HttpClientModule,
   ],
   exports: [
+    NoopAnimationsModule,
     MatCardModule,
     MatChipsModule,
     MatIconModule,
