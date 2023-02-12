@@ -7,33 +7,40 @@ import { selectAndSortWithSearchTerm } from './reducer/terms.selector';
 import { Term } from './term';
 
 @Component({
-  selector: 'app-term-list',
-  templateUrl: './term-list.component.html',
-  styleUrls: ['./term-list.component.sass']
+	selector: 'app-term-list',
+	templateUrl: './term-list.component.html',
+	styleUrls: ['./term-list.component.sass'],
 })
 export class TermListComponent implements OnInit {
+	searchTerm = '';
+	terms$: Observable<Term[]>;
 
+	constructor(private store: Store<State>) {
+		this.terms$ = this.select();
+	}
 
-  searchTerm = ''
-  terms$: Observable<Term[]>;
+	ngOnInit(): void {
+		this.store.dispatch(loadTerms());
 
-  constructor(
-    private store: Store<State>,
-  ) {
-    this.terms$ = this.select();
-  }
+    if ('virtualKeyboard' in navigator) {
+			let newVariable: any;
+			newVariable = window.navigator;
+      newVariable.virtualKeyboard.show(),
+      newVariable.virtualKeyboard.overlaysContent = true;
+		} else {
+			alert('virtual keyboard is not supported');
+		}
+	}
 
-  ngOnInit(): void {
-    this.store.dispatch(loadTerms());
-  }
+	onSearch() {
+		this.terms$ = this.select();
 
-  onSearch() {
-    this.terms$ = this.select();
-  }
+    
+	}
 
-  select(): Observable<Term[]> {
-    return this.terms$ = this.store.select(selectAndSortWithSearchTerm(this.searchTerm));
-  }
-
+	select(): Observable<Term[]> {
+		return (this.terms$ = this.store.select(
+			selectAndSortWithSearchTerm(this.searchTerm)
+		));
+	}
 }
-
