@@ -3,7 +3,7 @@
     <mat-form-field class="full-width rounded-corners">
       <mat-label>Kelime Arama/Search Term</mat-label>
       <span matPrefix><mat-icon>search</mat-icon></span>
-      <input matInput type="search" [(ngModel)]="searchTerm">
+      <input matInput type="search" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
       <span matHint></span>
     </mat-form-field>
   </div>
@@ -21,13 +21,13 @@
           {{term.translations.get('Türkçe')?.match(firstLetterRegexp)}}
         </span>
         <span class="search-result">
-          <span innerHTML="{{term.translations.get('Türkçe') | highlight : 'ar'}}"></span>
+          <span innerHTML="{{term.translations.get('Türkçe') | highlight : searchTerm}}"></span>
         </span>
       </span>
 
       <span matListItemLine class="search-result-detail">
         <span class="spacer"></span>
-        <span innerHTML="{{term.english | highlight : 'ar'}}"></span>
+        <span innerHTML="{{term.english | highlight : searchTerm}}"></span>
       </span>
     </mat-list-item>
   </mat-list>

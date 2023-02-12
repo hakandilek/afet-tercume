@@ -12,13 +12,28 @@ import { Term } from './term';
   styleUrls: ['./term-list.component.sass']
 })
 export class TermListComponent implements OnInit {
+
+  public firstLetterRegexp = /[\p{L}\p{Nd}]/u;
+
   searchTerm = ''
   terms$: Observable<Term[]>;
-  public firstLetterRegexp = /[\p{L}\p{Nd}]/u;
+
   constructor(
     private store: Store<State>,
   ) {
-    this.terms$ = this.store.select(selectWithSearchTerm("ar"))
+    this.terms$ = this.select();
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(loadTerms());
+  }
+
+  onSearch() {
+    this.terms$ = this.select();
+  }
+
+  select(): Observable<Term[]> {
+    return this.terms$ = this.store.select(selectWithSearchTerm(this.searchTerm))
       .pipe(map((terms) => {
         const sortedTerms = terms.slice().sort((a, b) => {
           const t1 = a.translations.get('Türkçe');
@@ -28,10 +43,6 @@ export class TermListComponent implements OnInit {
         console.log('sorting finished');
         return sortedTerms;
       }));
-  }
-
-  ngOnInit(): void {
-    this.store.dispatch(loadTerms());
   }
 
   public compareNormalized(a: any, b: any, locale: string): CompareResult {
