@@ -20,7 +20,7 @@ import { TermsModule } from './terms/terms.module';
   declarations: [
     AppComponent,
     TermListComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

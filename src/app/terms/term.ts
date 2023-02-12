@@ -1,12 +1,12 @@
 export interface TermsResponse {
-  range: String;
-  majorDimensions: String;
-  values: String[][];
+  range: string;
+  majorDimensions: string;
+  values: string[][];
 }
 
 export interface Term {
-  id: String;
-  english: String;
-  domain: String;
-  translations: Map<String, String>;
+  id: string;
+  english: string;
+  domain: string;
+  translations: Map<string, string>;
 }
