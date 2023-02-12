@@ -21,7 +21,7 @@ export class TermsService {
       .pipe(
         mergeMap(response => response.values),
         map((values) => {
-          const translations = new Map<String, String>();
+          const translations = new Map<string, string>();
           translations.set("Türkçe", values[3]);
           translations.set("Español", values[4]);
           translations.set("Deutsch", values[5]);
@@ -44,7 +44,8 @@ export class TermsService {
             id: values[0],
             english: values[1],
             domain: values[2],
-            translations
+            translations,
+            initial: '',
           };
           return term;
         }),

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { State } from '../reducers';
 import { loadTerms } from './reducer/terms.actions';
-import { selectAllTerms } from './reducer/terms.selector';
+import { selectAndSortWithSearchTerm } from './reducer/terms.selector';
 import { Term } from './term';
 
 @Component({
@@ -12,40 +12,28 @@ import { Term } from './term';
   styleUrls: ['./term-list.component.sass']
 })
 export class TermListComponent implements OnInit {
+
+
   searchTerm = ''
   terms$: Observable<Term[]>;
-  public firstLetterRegexp = /[\p{L}\p{Nd}]/u;
+
   constructor(
     private store: Store<State>,
   ) {
-    this.terms$ = this.store.select(selectAllTerms).pipe(map((terms) => {
-      const sortedTerms = terms.slice().sort((a, b) => {
-        const t1 = a.translations.get('Türkçe');
-        const t2 = b.translations.get('Türkçe');
-        return this.compareNormalized(t1, t2, 'tr');
-      });
-      console.log('sorting finished');
-      return sortedTerms;
-    }));
+    this.terms$ = this.select();
   }
 
   ngOnInit(): void {
     this.store.dispatch(loadTerms());
   }
 
-  public compareNormalized(a: any, b: any, locale: string): CompareResult {
-    if (typeof a === 'undefined') {
-      return 1;
-    }
-    if (b === undefined || b === null) {
-      return -1;
-    }
-    return a.localeCompare(b, locale, {
-      ignorePunctuation: true,
-      sensitivity: 'accent',
-      numeric: true,
-    }) as CompareResult;
+  onSearch() {
+    this.terms$ = this.select();
   }
+
+  select(): Observable<Term[]> {
+    return this.terms$ = this.store.select(selectAndSortWithSearchTerm(this.searchTerm));
+  }
+
 }
 
-type CompareResult = -1 | 0 | 1;

@@ -3,7 +3,7 @@
     <mat-form-field class="full-width rounded-corners">
       <mat-label>Kelime Arama/Search Term</mat-label>
       <span matPrefix><mat-icon>search</mat-icon></span>
-      <input matInput type="search" [(ngModel)]="searchTerm">
+      <input matInput type="search" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
       <span matHint></span>
     </mat-form-field>
   </div>
@@ -12,18 +12,19 @@
 <div>
   <mat-list *ngIf="(terms$ | async) as terms">
     <mat-list-item *ngFor="let term of terms; let i = index">
-
       <span matListItemLine>
-        <span class="search-initial" *ngIf="i == 0
-        || compareNormalized(
-          terms[i-1].translations.get('Türkçe')?.match(firstLetterRegexp)?.at(0),
-          term.translations.get('Türkçe')?.match(firstLetterRegexp)?.at(0),
-          'tr') !== 0">
-          {{term.translations.get('Türkçe')?.match(firstLetterRegexp)}}
+        <span class="search-initial" *ngIf="!!term.initial">
+          {{term.initial}}
         </span>
-        <span class="search-result">{{term.translations.get('Türkçe')}}</span>
+        <span class="search-result">
+          <span innerHTML="{{term.translations.get('Türkçe') | highlight : searchTerm}}"></span>
+        </span>
       </span>
-      <span matListItemLine class="search-result-detail"><span class="spacer"></span>{{term.english}}</span>
+
+      <span matListItemLine class="search-result-detail">
+        <span class="spacer"></span>
+        <span innerHTML="{{term.english | highlight : searchTerm}}"></span>
+      </span>
     </mat-list-item>
   </mat-list>
 </div>
