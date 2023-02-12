@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import { State } from '../reducers';
-import { selectAll } from './reducer';
 import { loadTerms } from './reducer/terms.actions';
 import { selectAllTerms } from './reducer/terms.selector';
 import { Term } from './term';
@@ -15,15 +14,17 @@ import { Term } from './term';
 export class TermListComponent implements OnInit {
   searchTerm = ''
   terms$: Observable<Term[]>;
+  public firstLetterRegexp = /[\p{L}\p{Nd}]/u;
   constructor(
     private store: Store<State>,
   ) {
     this.terms$ = this.store.select(selectAllTerms).pipe(map((terms) => {
       const sortedTerms = terms.slice().sort((a, b) => {
-        const t1 = a.translations.get('Türkçe')?.toLocaleLowerCase();
-        const t2 = b.translations.get('Türkçe')?.toLocaleLowerCase();
+        const t1 = a.translations.get('Türkçe');
+        const t2 = b.translations.get('Türkçe');
         return this.compareNormalized(t1, t2, 'tr');
       });
+      console.log('sorting finished');
       return sortedTerms;
     }));
   }
@@ -32,7 +33,7 @@ export class TermListComponent implements OnInit {
     this.store.dispatch(loadTerms());
   }
 
-  private compareNormalized(a: any, b: any, locale: string): CompareResult {
+  public compareNormalized(a: any, b: any, locale: string): CompareResult {
     if (typeof a === 'undefined') {
       return 1;
     }
@@ -41,7 +42,7 @@ export class TermListComponent implements OnInit {
     }
     return a.localeCompare(b, locale, {
       ignorePunctuation: true,
-      sensitivity: 'variant',
+      sensitivity: 'accent',
       numeric: true,
     }) as CompareResult;
   }
