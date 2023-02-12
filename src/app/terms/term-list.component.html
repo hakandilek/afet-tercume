@@ -3,7 +3,7 @@
     <mat-form-field class="full-width rounded-corners">
       <mat-label>Kelime Arama/Search Term</mat-label>
       <span matPrefix><mat-icon>search</mat-icon></span>
-      <input matInput type="search" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
+      <input #search matInput type="search" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
       <span matHint></span>
     </mat-form-field>
   </div>

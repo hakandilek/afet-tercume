@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { State } from '../reducers';
@@ -13,6 +13,7 @@ import { Term } from './term';
 })
 export class TermListComponent implements OnInit {
 
+  @ViewChild("search") searchInputField!: ElementRef<HTMLInputElement>
 
   searchTerm = ''
   terms$: Observable<Term[]>;
@@ -25,6 +26,10 @@ export class TermListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadTerms());
+  }
+
+  ngAfterViewInit() {
+    this.searchInputField?.nativeElement?.focus();
   }
 
   onSearch() {
