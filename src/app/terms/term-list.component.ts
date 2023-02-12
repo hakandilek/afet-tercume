@@ -1,4 +1,5 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef } from '@angular/core'
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { State } from '../reducers';
@@ -11,7 +12,7 @@ import { Term } from './term';
   templateUrl: './term-list.component.html',
   styleUrls: ['./term-list.component.sass']
 })
-export class TermListComponent implements OnInit {
+export class TermListComponent implements OnInit, AfterViewChecked {
 
   @ViewChild("search") searchInputField!: ElementRef<HTMLInputElement>
 
@@ -20,12 +21,17 @@ export class TermListComponent implements OnInit {
 
   constructor(
     private store: Store<State>,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.terms$ = this.select();
   }
 
   ngOnInit(): void {
     this.store.dispatch(loadTerms());
+  }
+
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
   }
 
   ngAfterViewInit() {
