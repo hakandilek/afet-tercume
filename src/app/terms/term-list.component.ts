@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { delay, Observable } from 'rxjs';
 import { State } from '../reducers';
 import { loadTerms } from './reducer/terms.actions';
 import { selectAndSortWithSearchTerm } from './reducer/terms.selector';
