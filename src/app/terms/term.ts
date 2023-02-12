@@ -9,4 +9,5 @@ export interface Term {
   english: string;
   domain: string;
   translations: Map<string, string>;
+  initial: string;
 }

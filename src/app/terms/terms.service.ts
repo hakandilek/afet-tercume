@@ -44,7 +44,8 @@ export class TermsService {
             id: values[0],
             english: values[1],
             domain: values[2],
-            translations
+            translations,
+            initial: '',
           };
           return term;
         }),
