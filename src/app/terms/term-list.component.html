@@ -14,9 +14,12 @@
     <mat-list-item *ngFor="let term of terms; let i = index">
 
       <span matListItemLine>
-        <span class="search-initial" *ngIf="i == 0 || terms[i-1].translations.get('Türkçe')?.charAt(0)?.toLocaleUpperCase() !== term.translations.get('Türkçe')?.charAt(0)?.toLocaleUpperCase()"
-        >
-          {{term.translations.get('Türkçe')?.charAt(0)?.toLocaleUpperCase()}}
+        <span class="search-initial" *ngIf="i == 0
+        || compareNormalized(
+          terms[i-1].translations.get('Türkçe')?.match(firstLetterRegexp)?.at(0),
+          term.translations.get('Türkçe')?.match(firstLetterRegexp)?.at(0),
+          'tr') !== 0">
+          {{term.translations.get('Türkçe')?.match(firstLetterRegexp)}}
         </span>
         <span class="search-result">{{term.translations.get('Türkçe')}}</span>
       </span>
