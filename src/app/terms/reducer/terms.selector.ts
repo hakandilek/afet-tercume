@@ -43,11 +43,14 @@ const extractInitial = (source: SupportedLanguages, target: SupportedLanguages) 
 
 export const selectAndSortWithSearchTerm = (searchTerm: string, source: SupportedLanguages, target: SupportedLanguages) =>
   createSelector(selectAllTerms, (terms) => {
-    console.log(`search term: ${searchTerm}`, source, target);
-    const re = new RegExp(searchTerm, 'gi');
+    const sourceSearchTerm: string = searchTerm.toLocaleLowerCase(source);
+    const targetSearchTerm: string = searchTerm.toLocaleLowerCase(target);
+    //console.log(`search term: ${}`, source, target);
+    const sourceRegex = new RegExp(sourceSearchTerm, 'gi');
+    const targetRegex = new RegExp(targetSearchTerm, 'gi');
     if (!!searchTerm) {
       return terms.filter(term => {
-        return !!(term.translations[target]) && (term.translations[target].match(re) || term.translations[source].match(re));
+        return !!(term.translations[target]) && (term.translations[target].match(targetRegex) || term.translations[source].match(sourceRegex));
       }).sort(compareByLanguage(source))
         .map(extractInitial(source, target));
     }
