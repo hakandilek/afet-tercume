@@ -15,12 +15,14 @@ import { SharedModule } from './shared/shared.module';
 import { TermsEffects } from './terms/reducer/terms.effects';
 import { TermListComponent } from './terms/term-list.component';
 import { TermsModule } from './terms/terms.module';
+import { LanguageComponent } from './language/language.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TermListComponent,
     HeaderComponent,
+    LanguageComponent
   ],
   imports: [
     BrowserModule,

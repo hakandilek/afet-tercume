@@ -1,0 +1,71 @@
+<ng-container *ngIf="selectedSource$ | async as selectedSource">
+  <ng-container *ngIf="selectedTarget$ | async as selectedTarget">
+    <div class="three-column-grid mat-body-1 text-white large-font">
+
+      <div class="flex justify-center">
+        <div class="text-lg font-bold ">{{selectedSource.originName}}</div>
+
+        <mat-icon class="flex mx-2">arrow_forward</mat-icon>
+
+        <div class="text-lg font-bold">{{selectedTarget.translatedName}} ({{selectedTarget.originName}})</div>
+      </div>
+
+    </div>
+    <div class="two-column-grid mat-body-1 light-font-color">
+      <mat-list>
+        <mat-list-item
+        *ngFor="let source of sourceLanguageList$ | async; last as last"
+        [class.bg-lavender]="source.isoCode === selectedSource.isoCode">
+          <h4
+            mat-line
+            [class.text-white]="source.isoCode !== selectedSource.isoCode"
+            [class.text-purple]="source.isoCode === selectedSource.isoCode"
+            (click)="selectSource(source.isoCode)"
+          >{{source.originName}}</h4>
+
+        </mat-list-item>
+      </mat-list>
+      <mat-divider [vertical]="true"></mat-divider>
+      <mat-list>
+        <mat-list-item
+        *ngFor="let target of targetLanguageList$ | async; last as last"
+        [class.bg-lavender]="target.isoCode === selectedTarget.isoCode"
+        [disabled]="target.isoCode === selectedSource.isoCode"
+        (click)="selectTarget(target.isoCode)">
+          <h4
+            rtl
+            mat-line
+            class="flex justify-center"
+            [class.text-light-gray]="target.isoCode === selectedSource.isoCode"
+            [class.text-purple]="target.isoCode === selectedTarget.isoCode"
+            [class.text-white]="target.isoCode !== selectedTarget.isoCode && target.isoCode !== selectedSource.isoCode"
+            [dir]="target.rtl ? 'rtl' : 'ltr'"
+          >{{target.originName}} ({{target.translatedName}})</h4>
+
+        </mat-list-item>
+      </mat-list>
+
+    </div>
+    <div class="
+    sticky
+    w-full
+    flex
+    space-x-1
+    self-center
+    justify-evenly
+    bg-dark-gray
+    bottom-0">
+      <button
+      class="w-full
+      rounded-full
+      bg-lavender
+      my-4
+      mx-5
+      py-2.5
+      justify-center
+      text-light-purple
+      border-purple" (click)="save()">Save / Kaydetke</button>
+
+    </div>
+  </ng-container>
+</ng-container>

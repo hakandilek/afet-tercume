@@ -1,3 +1,5 @@
+import { SupportedLanguages } from '../constants/languages';
+
 export interface TermsResponse {
   range: string;
   majorDimensions: string;
@@ -8,6 +10,6 @@ export interface Term {
   id: string;
   english: string;
   domain: string;
-  translations: Map<string, string>;
+  translations: Record<SupportedLanguages, string>;
   initial: string;
 }
