@@ -15,12 +15,12 @@
       <mat-list>
         <mat-list-item
         *ngFor="let source of sourceLanguageList$ | async; last as last"
-        [class.bg-lavender]="source.isoCode === selectedSource.isoCode">
+        [class.bg-lavender]="source.isoCode === selectedSource.isoCode"
+        (click)="selectSource(source.isoCode)">
           <h4
             mat-line
             [class.text-white]="source.isoCode !== selectedSource.isoCode"
             [class.text-purple]="source.isoCode === selectedSource.isoCode"
-            (click)="selectSource(source.isoCode)"
           >{{source.originName}}</h4>
 
         </mat-list-item>
