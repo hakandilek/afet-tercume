@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { State } from '../reducers';
@@ -13,7 +13,11 @@ import { Term } from './term';
   templateUrl: './term-list.component.html',
   styleUrls: ['./term-list.component.sass']
 })
-export class TermListComponent implements OnInit, OnDestroy {
+
+export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked {
+
+  @ViewChild("search") searchInputField!: ElementRef<HTMLInputElement>
+
   searchTerm = ''
   terms$: Observable<Term[]>;
   public selectedSource$: Observable<LanguageInfoView>;
@@ -22,7 +26,8 @@ export class TermListComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     private headerService: HeaderService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.terms$ = this.select();
     this.selectedSource$ = this.languageService.getLanguageSelectionView().pipe(
@@ -57,16 +62,22 @@ export class TermListComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$),
       map(languageSelection => {
       // TODO lang file label here
-      console.log('term list trigger headerstate');
       return {
         template: HeaderTemplate.search,
         data: `${languageSelection.sourceLanguage.originName} > ${languageSelection.targetLanguage.originName}`
       } as HeaderState;
     }))
     .subscribe((a) => {
-      console.log('agagnn');
       this.headerService.setHeaderState(a);
     });
+  }
+
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
+  }
+
+  ngAfterViewInit() {
+    this.searchInputField?.nativeElement?.focus();
   }
 
   onSearch() {
