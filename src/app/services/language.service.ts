@@ -69,9 +69,11 @@ export class LanguageService {
     return this.getLanguageSelection().pipe(map(currentSelection => {
       const result = Object.values(SupportedLanguages).map(isoKey => {
         const translateTargetIsoKey = currentSelection.uiLanguage;
+        const rtl = languages[isoKey].rtl;
         const originName = languages[isoKey].otherLanguageNames[isoKey];
         const translatedName = languages[translateTargetIsoKey].otherLanguageNames[isoKey];
         return {
+          rtl,
           isoCode: isoKey,
           originName,
           translatedName
@@ -92,9 +94,11 @@ export class LanguageService {
 
   private getLanguageInfoView(language: SupportedLanguages, uiLanguage: SupportedLanguages): LanguageInfoView {
     const isoCode = languages[language].isoCode;
+    const rtl = languages[language].rtl;
     const originName = languages[language].otherLanguageNames[language];
     const translatedName = languages[uiLanguage].otherLanguageNames[language];
     return {
+      rtl,
       isoCode,
       originName,
       translatedName
@@ -122,6 +126,7 @@ export interface LanguageInfoView {
   originName: string;
   translatedName: string;
   isoCode: SupportedLanguages;
+  rtl?: boolean;
 }
 
 export interface LanguageSelectionInfoView {

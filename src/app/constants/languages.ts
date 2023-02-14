@@ -19,6 +19,7 @@ export interface LanguageDetails {
   isoCode: SupportedLanguages,
   otherLanguageNames: Record<SupportedLanguages, string>,
   dataField: string;
+  rtl?: boolean;
 }
 
 export const languages: Record<SupportedLanguages, LanguageDetails> = {
@@ -43,6 +44,7 @@ export const languages: Record<SupportedLanguages, LanguageDetails> = {
   },
   [SupportedLanguages.ar]: {
     isoCode: SupportedLanguages.ar,
+    rtl: true,
     dataField: 'عربي',
     otherLanguageNames: {
       ar: 'العربية',
@@ -157,6 +159,7 @@ export const languages: Record<SupportedLanguages, LanguageDetails> = {
   },
   [SupportedLanguages.he]: {
     isoCode: SupportedLanguages.he,
+    rtl: true,
     dataField: 'עִברִית',
     otherLanguageNames: {
       ar: 'ערבית',

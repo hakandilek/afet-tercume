@@ -33,13 +33,15 @@
         [disabled]="target.isoCode === selectedSource.isoCode"
         (click)="selectTarget(target.isoCode)">
           <h4
+            rtl
             mat-line
             class="flex justify-center"
             [class.text-light-gray]="target.isoCode === selectedSource.isoCode"
             [class.text-purple]="target.isoCode === selectedTarget.isoCode"
             [class.text-white]="target.isoCode !== selectedTarget.isoCode && target.isoCode !== selectedSource.isoCode"
-
+            [dir]="target.rtl ? 'rtl' : 'ltr'"
           >{{target.originName}} ({{target.translatedName}})</h4>
+
         </mat-list-item>
       </mat-list>
 
