@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { SupportedLanguages } from 'src/app/constants/languages';
 import { selectAll, State, termsFeatureKey } from ".";
 import { Term } from "../term";
 
@@ -19,36 +20,39 @@ function compareNormalized(a: any, b: any, locale: string = 'en'): CompareResult
   }) as CompareResult;
 }
 
-function compareByLanguage(lang: string): ((a: Term, b: Term) => number) {
+function compareByLanguage(lang: SupportedLanguages): ((a: Term, b: Term) => number) {
   return function (a: Term, b: Term): number {
-    const t1 = a.translations.get(lang);
-    const t2 = b.translations.get(lang);
-    return compareNormalized(t1, t2, 'tr');
+    const t1 = a.translations[lang];
+    const t2 = b.translations[lang];
+    return compareNormalized(t1, t2, lang);
   }
 }
 
 const termsFeatureSelector = createFeatureSelector<State>(termsFeatureKey);
 export const selectAllTerms = createSelector(termsFeatureSelector, selectAll);
 
-const extractInitial = (term: Term, idx: number, arr: Term[]) => {
+const extractInitial = (source: SupportedLanguages, target: SupportedLanguages) => (term: Term, idx: number, arr: Term[]) => {
   var initial = '';
-  const currInitial = term.translations.get('Türkçe')?.match(firstLetterRegexp)?.at(0);
-  if (idx == 0 || compareNormalized(currInitial, arr[idx - 1].translations.get('Türkçe')?.match(firstLetterRegexp)?.at(0)) != 0) {
+  // console.log(term.translations);
+  const currInitial = term.translations[source].match(firstLetterRegexp)?.at(0);
+  if (idx == 0 || compareNormalized(currInitial, arr[idx - 1].translations[source].match(firstLetterRegexp)?.at(0)) != 0) {
     initial = currInitial!;
   }
   return { ...term, initial };
 };
 
-export const selectAndSortWithSearchTerm = (searchTerm: string) =>
+export const selectAndSortWithSearchTerm = (searchTerm: string, source: SupportedLanguages, target: SupportedLanguages) =>
   createSelector(selectAllTerms, (terms) => {
-    console.log(`search term: ${searchTerm}`);
+    console.log(`search term: ${searchTerm}`, source, target);
     const re = new RegExp(searchTerm, 'gi');
     if (!!searchTerm) {
       return terms.filter(term => {
-        return !!(term.english) && (term.english.match(re) || term.translations.get('Türkçe')?.match(re));
-      }).sort(compareByLanguage('Türkçe'))
-        .map(extractInitial);
+        return !!(term.translations[target]) && (term.translations[target].match(re) || term.translations[source].match(re));
+      }).sort(compareByLanguage(source))
+        .map(extractInitial(source, target));
     }
-    return terms.sort(compareByLanguage("Türkçe"))
-      .map(extractInitial);
+    return terms
+      .filter(term => !!term.translations[target] && !!term.translations[source])
+      .sort(compareByLanguage(source))
+      .map(extractInitial(source, target));
   });

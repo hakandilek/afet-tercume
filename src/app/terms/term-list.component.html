@@ -1,30 +1,34 @@
-<div>
-  <div class="rounded-corners">
-    <mat-form-field class="full-width rounded-corners">
-      <mat-label>Kelime Arama/Search Term</mat-label>
-      <span matPrefix><mat-icon>search</mat-icon></span>
-      <input matInput type="search" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
-      <span matHint></span>
-    </mat-form-field>
-  </div>
-</div>
+<ng-container *ngIf="selectedSource$ | async as selectedSource">
+  <ng-container *ngIf="selectedTarget$ | async as selectedTarget">
+    <div>
+      <div class="rounded-corners">
+        <mat-form-field class="full-width rounded-corners">
+          <mat-label>Kelime Arama/Search Term</mat-label>
+          <span matPrefix><mat-icon>search</mat-icon></span>
+          <input matInput type="search" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
+          <span matHint></span>
+        </mat-form-field>
+      </div>
+    </div>
 
-<div>
-  <mat-list *ngIf="(terms$ | async) as terms">
-    <mat-list-item *ngFor="let term of terms; let i = index">
-      <span matListItemLine>
-        <span class="search-initial" *ngIf="!!term.initial">
-          {{term.initial}}
-        </span>
-        <span class="search-result">
-          <span innerHTML="{{term.translations.get('Türkçe') | highlight : searchTerm}}"></span>
-        </span>
-      </span>
+    <div>
+      <mat-list *ngIf="(terms$ | async) as terms">
+        <mat-list-item *ngFor="let term of terms; let i = index">
+          <span matListItemLine>
+            <span class="search-initial" *ngIf="!!term.initial">
+              {{term.initial}}
+            </span>
+            <span class="search-result">
+              <span innerHTML="{{term.translations[selectedSource.isoCode] | highlight : searchTerm}}"></span>
+            </span>
+          </span>
 
-      <span matListItemLine class="search-result-detail">
-        <span class="spacer"></span>
-        <span innerHTML="{{term.english | highlight : searchTerm}}"></span>
-      </span>
-    </mat-list-item>
-  </mat-list>
-</div>
+          <span matListItemLine class="search-result-detail">
+            <span class="spacer"></span>
+            <span innerHTML="{{term.translations[selectedTarget.isoCode] | highlight : searchTerm}}"></span>
+          </span>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </ng-container>
+</ng-container>
