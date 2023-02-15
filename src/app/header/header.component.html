@@ -1,31 +1,32 @@
-<ng-container *ngIf="header$ | async as header">
-  <ng-container *ngTemplateOutlet="header.template === HeaderTeamplate.search ? selection : empty; context: { $implicit: header }"></ng-container>
-  <ng-container *ngTemplateOutlet="header.template === HeaderTeamplate.languageSelection ? languageSelection : empty; context: { $implicit: header }"></ng-container>
-  <ng-container *ngTemplateOutlet="header.template === HeaderTeamplate.settings ? settings : empty; context: { $implicit: header }"></ng-container>
-</ng-container>
+<div class="sticky-header">
+  <ng-container *ngIf="header$ | async as header">
+    <ng-container *ngTemplateOutlet="header.template === HeaderTeamplate.search ? selection : empty; context: { $implicit: header }"></ng-container>
+    <ng-container *ngTemplateOutlet="header.template === HeaderTeamplate.languageSelection ? languageSelection : empty; context: { $implicit: header }"></ng-container>
+    <ng-container *ngTemplateOutlet="header.template === HeaderTeamplate.settings ? settings : empty; context: { $implicit: header }"></ng-container>
+  </ng-container>
 
-<ng-template #empty></ng-template>
+  <ng-template #empty></ng-template>
 
-<ng-template #selection let-header>
-  <mat-toolbar class="background justify-content">
-    <div class="text-base text-white-ish">{{header.data}}</div>
-    <span class="spacer"></span>
-    <div><a [routerLink]="['/pick']" class="text-base text-white-ish underline">Değiştir (Change)</a></div>
-  </mat-toolbar>
-</ng-template>
+  <ng-template #selection let-header >
+    <mat-toolbar class="background justify-content">
+      <div class="text-base text-white-ish">{{header.data}}</div>
+      <span class="spacer"></span>
+      <div><a [routerLink]="['/pick']" class="text-base text-white-ish underline">Değiştir (Change)</a></div>
+    </mat-toolbar>
+  </ng-template>
 
-<ng-template #languageSelection let-header>
-  <div class="background justify-center flex text-lg">
-    <a routerLink="/terms" class="back-buttons text-white-ish"><mat-icon>arrow_back</mat-icon></a>
-    <div class="flex font-main text-lg text-white-ish font-thin self-center my-6">Dil Seçimi / Choose Language</div>
-  </div>
-</ng-template>
+  <ng-template #languageSelection let-header>
+    <div class="background justify-center flex text-lg">
+      <a routerLink="/terms" class="back-buttons text-white-ish"><mat-icon>arrow_back</mat-icon></a>
+      <div class="flex font-main text-lg text-white-ish font-thin self-center my-6">Dil Seçimi / Choose Language</div>
+    </div>
+  </ng-template>
 
-<ng-template #settings let-header>
-  <mat-toolbar class="background justify-content">
-    <div class="text-base text-white-ish">{{header.data}}</div>
-    <span class="spacer"></span>
-    <div><a [routerLink]="['/pick']" class="change-button font-main">Değiştir (Change)</a></div>
-  </mat-toolbar>
-</ng-template>
-
+  <ng-template #settings let-header>
+    <mat-toolbar class="background justify-content">
+      <div class="text-base text-white-ish">{{header.data}}</div>
+      <span class="spacer"></span>
+      <div><a [routerLink]="['/pick']" class="change-button font-main">Değiştir (Change)</a></div>
+    </mat-toolbar>
+  </ng-template>
+</div>
