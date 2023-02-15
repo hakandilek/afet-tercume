@@ -32,13 +32,13 @@
                 {{term.initial}}
               </span>
               <span class="search-result">
-                <span innerHTML="{{term.translations[selectedSource.isoCode] | highlight : searchTerm.toLocaleLowerCase(selectedSource.isoCode)}}"></span>
+                <span innerHTML="{{ searchTerm ? (term.translations[selectedSource.isoCode] | highlight : searchTerm.toLocaleLowerCase(selectedSource.isoCode)) : (term.translations[selectedSource.isoCode])}}"></span>
               </span>
             </span>
   
             <span matListItemLine class="search-result-detail">
               <span class="spacer"></span>
-              <span innerHTML="{{term.translations[selectedTarget.isoCode] | highlight : searchTerm.toLocaleLowerCase(selectedTarget.isoCode)}}"></span>
+              <span innerHTML="{{ searchTerm ? (term.translations[selectedTarget.isoCode] | highlight : searchTerm.toLocaleLowerCase(selectedTarget.isoCode)) : term.translations[selectedTarget.isoCode]}}"></span>
             </span>
           </div>
         </mat-list-item>
