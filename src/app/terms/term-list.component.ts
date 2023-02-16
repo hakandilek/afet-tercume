@@ -48,14 +48,6 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnInit(): void {
     this.store.dispatch(loadTerms());
-    if ('virtualKeyboard' in navigator) {
-      let newVariable: any;
-      newVariable = window.navigator;
-      newVariable.virtualKeyboard.show(),
-      newVariable.virtualKeyboard.overlaysContent = true;
-    } else {
-      // alert('virtual keyboard is not supported');
-    }
 
     this.languageService.getLanguageSelectionView()
     .pipe(
@@ -82,6 +74,25 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   onSearch() {
     this.terms$ = this.select();
+  }
+
+  onFocus(){
+    if ('virtualKeyboard' in navigator) {
+      console.log('virtual keyboard is supported');
+      let newVariable: any;
+      newVariable = window.navigator;
+      newVariable.virtualKeyboard.show(),
+      newVariable.virtualKeyboard.overlaysContent = false;
+    } else {
+      console.error('virtual keyboard is not supported');
+    }
+  }
+
+  onBlur(){
+      let newVariable: any;
+      newVariable = window.navigator;
+      newVariable.virtualKeyboard.hide(),
+      newVariable.virtualKeyboard.overlaysContent = false;
   }
 
   select(): Observable<Term[]> {
