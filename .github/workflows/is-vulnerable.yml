@@ -1,0 +1,13 @@
+name: Test site for publicly known js vulnerabilities
+
+on:
+  schedule:
+  - cron: "12 4 * * *"
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test for public library vulnerabilities. Runs every day at 4:12am
+        uses: lirantal/is-website-vulnerable@main
+        with:
+          scan-url: "https://afet-terim.web.app"
