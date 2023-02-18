@@ -13,7 +13,7 @@ export enum SupportedLanguages {
     he = 'he',
     it = 'it',
     ja = 'ja',
-};
+}
 
 export interface LanguageDetails {
   isoCode: SupportedLanguages,

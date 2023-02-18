@@ -6,7 +6,7 @@ import { Term } from "../term";
 type CompareResult = -1 | 0 | 1;
 const firstLetterRegexp = /[\p{L}\p{Nd}]/u;
 
-function compareNormalized(a: any, b: any, locale: string = 'en'): CompareResult {
+function compareNormalized(a: any, b: any, locale = 'en'): CompareResult {
   if (typeof a === 'undefined') {
     return 1;
   }
@@ -31,8 +31,8 @@ function compareByLanguage(lang: SupportedLanguages): ((a: Term, b: Term) => num
 const termsFeatureSelector = createFeatureSelector<State>(termsFeatureKey);
 export const selectAllTerms = createSelector(termsFeatureSelector, selectAll);
 
-const extractInitial = (source: SupportedLanguages, target: SupportedLanguages) => (term: Term, idx: number, arr: Term[]) => {
-  var initial = '';
+const extractInitial = (source: SupportedLanguages, _target: SupportedLanguages) => (term: Term, idx: number, arr: Term[]) => {
+  let initial = '';
   // console.log(term.translations);
   const currInitial = term.translations[source].match(firstLetterRegexp)?.at(0);
   if (idx == 0 || compareNormalized(currInitial, arr[idx - 1].translations[source].match(firstLetterRegexp)?.at(0)) != 0) {
@@ -48,7 +48,7 @@ export const selectAndSortWithSearchTerm = (searchTerm: string, source: Supporte
     //console.log(`search term: ${}`, source, target);
     const sourceRegex = new RegExp(sourceSearchTerm, 'gi');
     const targetRegex = new RegExp(targetSearchTerm, 'gi');
-    if (!!searchTerm) {
+    if (searchTerm) {
       return terms.filter(term => {
         return !!(term.translations[target]) && (term.translations[target].match(targetRegex) || term.translations[source].match(sourceRegex));
       }).sort(compareByLanguage(source))

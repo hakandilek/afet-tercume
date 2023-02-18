@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatMap, filter, map, mergeMap, skip, switchMap, toArray } from 'rxjs/operators';
-import { Term } from '../term';
+import { concatMap, map } from 'rxjs/operators';
 import { TermsService } from '../terms.service';
 import { loadTerms, termsLoaded } from './terms.actions';
 
