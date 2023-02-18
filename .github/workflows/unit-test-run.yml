@@ -16,3 +16,10 @@ jobs:
         with:
           name: test-results
           path: report/test/unit-test.xml
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        id: test-results
+        if: always()
+        with:
+          files: |
+            report/test/unit-test.xml
