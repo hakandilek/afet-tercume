@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div *ngIf="(terms$ | async)?.length == 0">
+    <div *ngIf="(terms$ | async)?.length === 0">
       <mat-card>
         <mat-card-header>
           <mat-card-title>Yükleniyor / Loading ...</mat-card-title>
@@ -35,7 +35,7 @@
                 <span innerHTML="{{ searchTerm ? (term.translations[selectedSource.isoCode] | highlight : searchTerm.toLocaleLowerCase(selectedSource.isoCode)) : (term.translations[selectedSource.isoCode])}}"></span>
               </span>
             </span>
-  
+
             <span matListItemLine class="search-result-detail">
               <span class="spacer"></span>
               <span innerHTML="{{ searchTerm ? (term.translations[selectedTarget.isoCode] | highlight : searchTerm.toLocaleLowerCase(selectedTarget.isoCode)) : term.translations[selectedTarget.isoCode]}}"></span>

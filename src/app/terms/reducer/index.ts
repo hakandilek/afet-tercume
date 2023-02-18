@@ -6,9 +6,7 @@ import { termsActionTypes } from './terms.actions';
 
 export const termsFeatureKey = 'terms';
 
-export interface State extends EntityState<Term> {
-
-}
+export type State = EntityState<Term>
 
 export const adapter: EntityAdapter<Term> = createEntityAdapter<Term>();
 

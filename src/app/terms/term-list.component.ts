@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { State } from '../reducers';
@@ -14,7 +14,7 @@ import { Term } from './term';
   styleUrls: ['./term-list.component.sass']
 })
 
-export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked, AfterViewInit {
 
   @ViewChild("search") searchInputField!: ElementRef<HTMLInputElement>
 
@@ -49,8 +49,7 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnInit(): void {
     this.store.dispatch(loadTerms());
     if ('virtualKeyboard' in navigator) {
-      let newVariable: any;
-      newVariable = window.navigator;
+      const newVariable: any = window.navigator;
       newVariable.virtualKeyboard.show(),
       newVariable.virtualKeyboard.overlaysContent = true;
     } else {
