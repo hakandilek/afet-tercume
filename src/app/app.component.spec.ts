@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { Title } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
@@ -28,9 +29,11 @@ describe('AppComponent', () => {
   });
 
   it(`should have as title 'Afet Terimleri'`, () => {
+
+    const titleService = TestBed.inject(Title);
+    const spy = spyOn(titleService, 'setTitle');
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('Afet Terimleri');
+    expect(spy).toHaveBeenCalledWith('Afet Terimleri');
   });
 
 });
