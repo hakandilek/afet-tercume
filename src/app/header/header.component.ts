@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { LanguageState } from '../language/language-state';
-
-import { HeaderService, HeaderState, HeaderTemplate } from '../services/header.service';
+import { LocaleService, UiLocale } from '../shared/i18n';
+import { HeaderService, HeaderTemplate } from './header.service';
+import { HeaderState } from "./header-state";
 
 @Component({
   selector: 'app-header',
@@ -13,10 +12,12 @@ import { HeaderService, HeaderState, HeaderTemplate } from '../services/header.s
 export class HeaderComponent {
   public header$: Observable<HeaderState>;
   public HeaderTeamplate = HeaderTemplate;
+  public locale: UiLocale;
   constructor(
-    private store: Store<LanguageState>,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private localeService: LocaleService
   ) {
+    this.locale = this.localeService.currentUiLocale();
     this.header$ = this.headerService.getHeaderState();
   }
 

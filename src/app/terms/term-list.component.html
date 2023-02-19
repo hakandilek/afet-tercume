@@ -3,7 +3,7 @@
     <div class="sticky-search">
       <div class="rounded-corners">
         <mat-form-field class="full-width rounded-corners">
-          <mat-label>Kelime Arama/Search Term</mat-label>
+          <mat-label>{{locale.labels.termsPage.searchPlaceholder}} {{locale.alt ? '/ ' + locale.alt.labels.termsPage.searchPlaceholder : ''}}</mat-label>
           <span matPrefix><mat-icon>search</mat-icon></span>
           <input matInput type="search" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
           <span matHint></span>
@@ -14,10 +14,10 @@
     <div *ngIf="(terms$ | async)?.length === 0">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Yükleniyor / Loading ...</mat-card-title>
+          <mat-card-title>{{locale.labels.termsPage.dataLoadingMessage}} {{locale.alt ? '/ ' + locale.alt.labels.termsPage.dataLoadingMessage : ''}}...</mat-card-title>
           <mat-card-subtitle>
-            <p>Terim listesi yükleninceye dek lüfen bekleyiniz.</p>
-            <p>Please wait until the term list is loaded.</p>
+            <p>{{locale.labels.termsPage.dataLoadingMessageDetail}}</p>
+            <p>{{locale.alt ? locale.alt.labels.termsPage.dataLoadingMessageDetail : ''}}</p>
           </mat-card-subtitle>
         </mat-card-header>
       </mat-card>

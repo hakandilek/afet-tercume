@@ -1,4 +1,4 @@
-<div class="sticky-header">
+<div class="sticky-header" *ngIf="true;">
   <ng-container *ngIf="header$ | async as header">
     <ng-container *ngTemplateOutlet="header.template === HeaderTeamplate.search ? selection : empty; context: { $implicit: header }"></ng-container>
     <ng-container *ngTemplateOutlet="header.template === HeaderTeamplate.languageSelection ? languageSelection : empty; context: { $implicit: header }"></ng-container>
@@ -11,14 +11,14 @@
     <mat-toolbar class="background justify-content">
       <div class="text-base text-white-ish">{{header.data}}</div>
       <span class="spacer"></span>
-      <div><a [routerLink]="['/pick']" class="text-base text-white-ish underline">Değiştir (Change)</a></div>
+      <div><a [routerLink]="['/pick']" class="text-base text-white-ish underline">{{locale.labels.headerSection.languagePageLink}} {{locale.alt ? '(' + locale.alt.labels.headerSection.languagePageLink + ')': ''}}</a></div>
     </mat-toolbar>
   </ng-template>
 
   <ng-template #languageSelection let-header>
     <div class="background justify-center flex text-lg">
       <a routerLink="/terms" class="back-buttons text-white-ish"><mat-icon>arrow_back</mat-icon></a>
-      <div class="flex font-main text-lg text-white-ish font-thin self-center my-6">Dil Seçimi / Choose Language</div>
+      <div class="flex font-main text-lg text-white-ish font-thin self-center my-6">{{locale.labels.headerSection.languagePageTitle}} {{locale.alt ? '/ ' + locale.alt.labels.headerSection.languagePageTitle: ''}}</div>
     </div>
   </ng-template>
 
@@ -26,7 +26,7 @@
     <mat-toolbar class="background justify-content">
       <div class="text-base text-white-ish">{{header.data}}</div>
       <span class="spacer"></span>
-      <div><a [routerLink]="['/pick']" class="change-button font-main">Değiştir (Change)</a></div>
+      <div><a [routerLink]="['/pick']" class="change-button font-main">{{locale.labels.headerSection.languagePageLink}} {{locale.alt ? '(' + locale.alt.labels.headerSection.languagePageLink + ')': ''}}</a></div>
     </mat-toolbar>
   </ng-template>
 </div>

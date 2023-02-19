@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { SupportedLanguages } from '../constants/languages';
-import { HeaderService, HeaderTemplate } from '../services/header.service';
-import { LanguageInfoView, LanguageService } from '../services/language.service';
+import { SupportedTranslationLocales } from "../shared/i18n/supported-translation-locales";
+import { HeaderService, HeaderTemplate } from '../header/header.service';
+import { LanguageInfoView, LanguageService } from './language.service';
+import { LocaleService, UiLocale } from '../shared/i18n';
 
 @Component({
   templateUrl: './language.component.html',
@@ -14,11 +15,14 @@ export class LanguageComponent implements OnInit {
   public targetLanguageList$: Observable<LanguageInfoView[]>;
   public selectedSource$: Observable<LanguageInfoView>;
   public selectedTarget$: Observable<LanguageInfoView>;
+  public locale: UiLocale;
 
   constructor(
     private languageService: LanguageService,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private localeService: LocaleService
   ) {
+    this.locale = this.localeService.currentUiLocale()
     this.sourceLanguageList$ = this.languageService.getLanguageSelectionList();
     this.targetLanguageList$ = this.languageService.getLanguageSelectionList();
     this.selectedSource$ = this.languageService.getLanguageSelectionView().pipe(map(selection => {
@@ -34,10 +38,10 @@ export class LanguageComponent implements OnInit {
       data: ''
     });
   }
-  public selectSource(sourceLanguage: SupportedLanguages): void {
-    this.languageService.setLanguageSelection({sourceLanguage, uiLanguage: sourceLanguage})
+  public selectSource(sourceLanguage: SupportedTranslationLocales): void {
+    this.languageService.setLanguageSelection({sourceLanguage})
   }
-  public selectTarget(targetLanguage: SupportedLanguages): void {
+  public selectTarget(targetLanguage: SupportedTranslationLocales): void {
     this.languageService.setLanguageSelection({targetLanguage})
   }
 
