@@ -13,4 +13,4 @@ export enum SupportedTranslationLocales {
   he = 'he',
   it = 'it',
   ja = 'ja'
-};
+}
