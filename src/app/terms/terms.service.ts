@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Term, TermsResponse } from './term';
 import { filter, map, mergeMap, toArray } from 'rxjs/operators';
-import { SupportedLanguages } from '../constants/languages';
+import { SupportedTranslationLocales } from '../shared/i18n';
 
 @Injectable({
   providedIn: 'root'
@@ -22,20 +22,20 @@ export class TermsService {
       .pipe(
         mergeMap(response => response.values),
         map((values) => {
-          const translations: Record<SupportedLanguages, string> = {
-            [SupportedLanguages.tr]: values[3],
-            [SupportedLanguages.en]: values[1],
-            [SupportedLanguages.es]: values[4],
-            [SupportedLanguages.de]: values[5],
-            [SupportedLanguages.ru]: values[6],
-            [SupportedLanguages.fr]: values[7],
-            [SupportedLanguages.ku]: values[8],
-            [SupportedLanguages.zza]: values[9],
-            [SupportedLanguages.ar]: values[10],
-            [SupportedLanguages.el]: values[11],
-            [SupportedLanguages.ja]: values[12],
-            [SupportedLanguages.he]: values[13],
-            [SupportedLanguages.it]: values[14]
+          const translations: Record<SupportedTranslationLocales, string> = {
+            [SupportedTranslationLocales.tr]: values[3],
+            [SupportedTranslationLocales.en]: values[1],
+            [SupportedTranslationLocales.es]: values[4],
+            [SupportedTranslationLocales.de]: values[5],
+            [SupportedTranslationLocales.ru]: values[6],
+            [SupportedTranslationLocales.fr]: values[7],
+            [SupportedTranslationLocales.ku]: values[8],
+            [SupportedTranslationLocales.zza]: values[9],
+            [SupportedTranslationLocales.ar]: values[10],
+            [SupportedTranslationLocales.el]: values[11],
+            [SupportedTranslationLocales.ja]: values[12],
+            [SupportedTranslationLocales.he]: values[13],
+            [SupportedTranslationLocales.it]: values[14]
           };
           // TODO add missing languages
           // translations.set("հայերեն", values[15]);

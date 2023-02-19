@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { SupportedLanguages } from 'src/app/constants/languages';
+import { SupportedTranslationLocales } from 'src/app/shared/i18n';
 import { selectAll, State, termsFeatureKey } from ".";
 import { Term } from "../term";
 
@@ -20,7 +20,7 @@ function compareNormalized(a: any, b: any, locale = 'en'): CompareResult {
   }) as CompareResult;
 }
 
-function compareByLanguage(lang: SupportedLanguages): ((a: Term, b: Term) => number) {
+function compareByLanguage(lang: SupportedTranslationLocales): ((a: Term, b: Term) => number) {
   return function (a: Term, b: Term): number {
     const t1 = a.translations[lang];
     const t2 = b.translations[lang];
@@ -31,7 +31,7 @@ function compareByLanguage(lang: SupportedLanguages): ((a: Term, b: Term) => num
 const termsFeatureSelector = createFeatureSelector<State>(termsFeatureKey);
 export const selectAllTerms = createSelector(termsFeatureSelector, selectAll);
 
-const extractInitial = (source: SupportedLanguages, _target: SupportedLanguages) => (term: Term, idx: number, arr: Term[]) => {
+const extractInitial = (source: SupportedTranslationLocales, _target: SupportedTranslationLocales) => (term: Term, idx: number, arr: Term[]) => {
   let initial = '';
   // console.log(term.translations);
   const currInitial = term.translations[source].match(firstLetterRegexp)?.at(0);
@@ -41,7 +41,7 @@ const extractInitial = (source: SupportedLanguages, _target: SupportedLanguages)
   return { ...term, initial };
 };
 
-export const selectAndSortWithSearchTerm = (searchTerm: string, source: SupportedLanguages, target: SupportedLanguages) =>
+export const selectAndSortWithSearchTerm = (searchTerm: string, source: SupportedTranslationLocales, target: SupportedTranslationLocales) =>
   createSelector(selectAllTerms, (terms) => {
     const sourceSearchTerm: string = searchTerm.toLocaleLowerCase(source);
     const targetSearchTerm: string = searchTerm.toLocaleLowerCase(target);

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, shareReplay, Subject } from 'rxjs';
+import { HeaderState } from './header-state';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +19,6 @@ export class HeaderService {
   public setHeaderState(headerState: HeaderState): void {
     this.headerState$.next({...headerState});
   }
-}
-
-export interface HeaderState {
-  template: HeaderTemplate;
-  data: string;
 }
 
 export enum HeaderTemplate {

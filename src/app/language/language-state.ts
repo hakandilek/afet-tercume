@@ -1,7 +1,6 @@
-import { SupportedLanguages } from '../constants/languages';
+import { SupportedTranslationLocales } from "../shared/i18n/supported-translation-locales";
 
 export interface LanguageState {
-  sourceLanguage: SupportedLanguages;
-  targetLanguage: SupportedLanguages;
-  uiLanguage: SupportedLanguages;
+  sourceLanguage: SupportedTranslationLocales;
+  targetLanguage: SupportedTranslationLocales;
 }

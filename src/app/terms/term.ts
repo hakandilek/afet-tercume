@@ -1,4 +1,4 @@
-import { SupportedLanguages } from '../constants/languages';
+import { SupportedTranslationLocales } from '../shared/i18n';
 
 export interface TermsResponse {
   range: string;
@@ -10,6 +10,6 @@ export interface Term {
   id: string;
   english: string;
   domain: string;
-  translations: Record<SupportedLanguages, string>;
+  translations: Record<SupportedTranslationLocales, string>;
   initial: string;
 }
