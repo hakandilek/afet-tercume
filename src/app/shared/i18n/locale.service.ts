@@ -7,11 +7,15 @@ export class LocaleService {
   private uiCode: SupportedUiLocales;
   private uiLocale: UiLocale;
   constructor() {
-    const storageUiKey = localStorage.getItem('ui-language') as SupportedUiLocales;
-    const browserLanguageIso = new Intl.Locale(window.navigator.language).language.split('-')[0];
-    const storageUi = Object.values(SupportedUiLocales).find(key => storageUiKey === key);
-    const browserUi = Object.values(SupportedUiLocales).find(key => browserLanguageIso === key);
-    this.uiCode = storageUi || browserUi || SupportedUiLocales.en;
+    // TODO uncomment this code once other ui languages are added and ui language selection page is done.
+    // const storageUiKey = localStorage.getItem('ui-language') as SupportedUiLocales;
+    // const browserLanguageIso = new Intl.Locale(window.navigator.language).language.split('-')[0];
+    // const storageUi = Object.values(SupportedUiLocales).find(key => storageUiKey === key);
+    // const browserUi = Object.values(SupportedUiLocales).find(key => browserLanguageIso === key);
+    // this.uiCode = storageUi || browserUi || SupportedUiLocales.en;
+
+    // TODO temp code remove once above code is enabled
+    this.uiCode = SupportedUiLocales.tr;
     this.uiLocale = this.getAnyUiLocale(this.uiCode);
   }
 
