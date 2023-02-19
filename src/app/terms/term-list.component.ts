@@ -2,11 +2,12 @@ import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementR
 import { Store } from '@ngrx/store';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { State } from '../reducers';
-import { HeaderService, HeaderState, HeaderTemplate } from '../services/header.service';
-import { LanguageInfoView, LanguageService } from '../services/language.service';
 import { loadTerms } from './reducer/terms.actions';
 import { selectAndSortWithSearchTerm } from './reducer/terms.selector';
 import { Term } from './term';
+import { LocaleService, UiLocale } from '../shared/i18n';
+import { LanguageInfoView, LanguageService } from '../language';
+import { HeaderTemplate, HeaderState, HeaderService } from '../header';
 
 @Component({
   selector: 'app-term-list',
@@ -22,13 +23,16 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked, A
   terms$: Observable<Term[]>;
   public selectedSource$: Observable<LanguageInfoView>;
   public selectedTarget$: Observable<LanguageInfoView>;
+  public locale: UiLocale;
   private destroy$ = new Subject<void>();
   constructor(
     private store: Store<State>,
     private headerService: HeaderService,
     private languageService: LanguageService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private localeService: LocaleService
   ) {
+    this.locale = this.localeService.currentUiLocale();
     this.terms$ = this.select();
     this.selectedSource$ = this.languageService.getLanguageSelectionView().pipe(
       takeUntil(this.destroy$),

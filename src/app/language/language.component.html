@@ -64,7 +64,7 @@
       py-2.5
       justify-center
       text-light-purple
-      border-purple" (click)="save()">Save / Kaydet</button>
+      border-purple" (click)="save()">{{locale.labels.languagePage.saveButton}} {{locale.alt ? '/ ' + locale.alt.labels.languagePage.saveButton: ''}}</button>
 
     </div>
   </ng-container>
