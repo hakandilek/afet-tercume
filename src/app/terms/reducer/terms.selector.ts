@@ -6,7 +6,7 @@ import { Term } from "../term";
 type CompareResult = -1 | 0 | 1;
 const firstLetterRegexp = /[\p{L}\p{Nd}]/u;
 
-function compareNormalized(a: any, b: any, locale = 'en'): CompareResult {
+function compareNormalized(a: string | undefined, b: string | undefined, locale = 'en'): CompareResult {
   if (typeof a === 'undefined') {
     return 1;
   }
@@ -36,13 +36,13 @@ const extractInitial = (source: SupportedTranslationLocales, _target: SupportedT
   // console.log(term.translations);
   const currInitial = term.translations[source].match(firstLetterRegexp)?.at(0);
   if (idx == 0 || compareNormalized(currInitial, arr[idx - 1].translations[source].match(firstLetterRegexp)?.at(0)) != 0) {
-    initial = currInitial!;
+    initial = currInitial || '';
   }
   return { ...term, initial };
 };
 
-export const selectAndSortWithSearchTerm = (searchTerm: string, source: SupportedTranslationLocales, target: SupportedTranslationLocales) =>
-  createSelector(selectAllTerms, (terms) => {
+export const selectAndSortWithSearchTerm = (searchTerm: string, source: SupportedTranslationLocales, target: SupportedTranslationLocales) => {
+  return createSelector(selectAllTerms, (terms) => {
     const sourceSearchTerm: string = searchTerm.toLocaleLowerCase(source);
     const targetSearchTerm: string = searchTerm.toLocaleLowerCase(target);
     //console.log(`search term: ${}`, source, target);
@@ -59,3 +59,4 @@ export const selectAndSortWithSearchTerm = (searchTerm: string, source: Supporte
       .sort(compareByLanguage(source))
       .map(extractInitial(source, target));
   });
+}
