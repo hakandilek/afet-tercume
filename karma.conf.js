@@ -31,10 +31,9 @@ module.exports = function (config) {
       useBrowserName: false, // add browser name to report and classes names
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/afet-terim'),
+      dir: require('path').join(__dirname, './report/coverage'),
       subdir: '.',
       reporters: [
-        { type: 'html' },
         { type: 'text' },
         { type: 'text-summary' },
         { type: 'lcov', subdir: 'report-lcov' },
@@ -42,7 +41,6 @@ module.exports = function (config) {
     },
     reporters: [
       'progress',
-      'kjhtml',
       'junit',
       'spec',
       'coverage'

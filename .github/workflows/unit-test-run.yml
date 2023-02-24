@@ -16,3 +16,20 @@ jobs:
         with:
           name: test-results
           path: report/test/unit-test.xml
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        id: test-results
+        if: always()
+        with:
+          files: |
+            report/test/unit-test.xml
+      - uses: romeovs/lcov-reporter-action@v0.3.1
+        with:
+          lcov-file: ./report/coverage/report-lcov/lcov.info
+          github-token: ${{ github.token }}
+      - uses: VeryGoodOpenSource/very_good_coverage@v2
+        if: always()
+        with:
+          path: './report/coverage/report-lcov/lcov.info'
+          min_coverage: 72
+          exclude: 'karma.conf.js tailwind.config.js'
