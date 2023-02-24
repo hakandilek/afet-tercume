@@ -11,13 +11,23 @@
       </div>
     </div>
 
-    <div *ngIf="(terms$ | async)?.length === 0">
+    <div *ngIf="loading">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>{{locale.labels.termsPage.dataLoadingMessage}} {{locale.alt ? '/ ' + locale.alt.labels.termsPage.dataLoadingMessage : ''}}...</mat-card-title>
+          <mat-card-title data-test="loader-title">{{locale.labels.termsPage.dataLoadingMessage}} {{locale.alt ? '/ ' + locale.alt.labels.termsPage.dataLoadingMessage : ''}}...</mat-card-title>
           <mat-card-subtitle>
             <p>{{locale.labels.termsPage.dataLoadingMessageDetail}}</p>
             <p>{{locale.alt ? locale.alt.labels.termsPage.dataLoadingMessageDetail : ''}}</p>
+          </mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
+    <div *ngIf="!loading && noResult">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title data-test="no-result">{{locale.labels.termsPage.noResultMessage}} {{locale.alt ? '/ ' + locale.alt.labels.termsPage.noResultMessage : ''}}</mat-card-title>
+          <mat-card-subtitle>
+            <p></p>
           </mat-card-subtitle>
         </mat-card-header>
       </mat-card>

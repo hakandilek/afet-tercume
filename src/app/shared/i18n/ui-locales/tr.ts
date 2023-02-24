@@ -22,7 +22,7 @@ export const turkishUi: UiLocaleData = {
     termsPage: {
       dataLoadingMessage: 'Yükleniyor',
       dataLoadingMessageDetail: 'Terim listesi yükleninceye dek lüfen bekleyiniz.',
-      noResultMessage: '',
+      noResultMessage: 'Sonuç bulunamadı',
       searchPlaceholder: 'Kelime arama'
     }
   }

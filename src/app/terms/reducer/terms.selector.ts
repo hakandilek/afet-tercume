@@ -41,8 +41,11 @@ const extractInitial = (source: SupportedTranslationLocales, _target: SupportedT
   return { ...term, initial };
 };
 
-export const selectAndSortWithSearchTerm = (searchTerm: string, source: SupportedTranslationLocales, target: SupportedTranslationLocales) =>
-  createSelector(selectAllTerms, (terms) => {
+export const selectAndSortWithSearchTerm = (searchTerm: string, source: SupportedTranslationLocales, target: SupportedTranslationLocales) => {
+  console.log('selectAndSortWithSearchTerm !!!');
+
+  return createSelector(selectAllTerms, (terms) => {
+    console.log('TERMSS', terms);
     const sourceSearchTerm: string = searchTerm.toLocaleLowerCase(source);
     const targetSearchTerm: string = searchTerm.toLocaleLowerCase(target);
     //console.log(`search term: ${}`, source, target);
@@ -59,3 +62,4 @@ export const selectAndSortWithSearchTerm = (searchTerm: string, source: Supporte
       .sort(compareByLanguage(source))
       .map(extractInitial(source, target));
   });
+}
