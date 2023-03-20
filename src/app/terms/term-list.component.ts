@@ -1,13 +1,14 @@
 import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable, Subject, takeUntil, tap } from 'rxjs';
+import { debounceTime, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { State } from '../reducers';
-import { loadTerms } from './reducer/terms.actions';
+import { loadTerms, logNoResultSearch } from './reducer/terms.actions';
 import { selectAndSortWithSearchTerm } from './reducer/terms.selector';
 import { Term } from './term';
 import { LocaleService, UiLocale } from '../shared/i18n';
 import { LanguageInfoView, LanguageService } from '../language';
 import { HeaderTemplate, HeaderState, HeaderService } from '../header';
+import { OfflineService } from '../services/offline.service';
 
 @Component({
   selector: 'app-term-list',
@@ -25,7 +26,7 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked, A
   public selectedTarget$: Observable<LanguageInfoView>;
   public locale: UiLocale;
   public loading = true;
-  public noResult = false;
+  public showNoResultMessage = false;
   private destroy$ = new Subject<void>();
   constructor(
     private store: Store<State>,
@@ -94,18 +95,30 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked, A
 
   select(): Observable<Term[]> {
     const currentLanguageSelection = this.languageService.getCurrentLanguageSelectionView();
-    this.noResult = false;
+    this.showNoResultMessage = false;
     return this.terms$ = this.store.select(selectAndSortWithSearchTerm(
       this.searchTerm,
       currentLanguageSelection.sourceLanguage.isoCode,
       currentLanguageSelection.targetLanguage.isoCode
-    )).pipe(tap(d => {
+    )).pipe(
+      debounceTime(1000),
+      tap(d => {
         if (d.length === 0) {
-          this.noResult = true;
+          this.noResultEffect();
         } else {
-          this.noResult = false;
+          this.showNoResultMessage = false;
         }
       }));
+  }
+
+  noResultEffect(): void {
+    this.showNoResultMessage = true;
+    const current = this.languageService.getCurrentLanguageSelectionView();
+    this.store.dispatch(logNoResultSearch({
+      keyword: this.searchTerm,
+      sourceLocale: current.sourceLanguage.isoCode,
+      targetLocale: current.targetLanguage.isoCode
+    }));
   }
 
 }

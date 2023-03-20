@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { OfflineService } from './services/offline.service';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +11,11 @@ export class AppComponent {
   /**
    *
    */
-  constructor(private titleService: Title) {
+  constructor(
+    private titleService: Title,
+    private offlineService: OfflineService
+  ) {
     this.titleService.setTitle('Afet Terimleri');
-
+    this.offlineService.initServiceWorker();
   }
 }

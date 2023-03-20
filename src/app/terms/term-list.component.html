@@ -22,7 +22,7 @@
         </mat-card-header>
       </mat-card>
     </div>
-    <div *ngIf="!loading && noResult">
+    <div *ngIf="!loading && showNoResultMessage">
       <mat-card>
         <mat-card-header>
           <mat-card-title data-test="no-result">{{locale.labels.termsPage.noResultMessage}} {{locale.alt ? '/ ' + locale.alt.labels.termsPage.noResultMessage : ''}}</mat-card-title>

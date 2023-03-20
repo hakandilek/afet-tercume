@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:no-reload": "ng serve --live-reload false --disable-host-check --host 0.0.0.0",
+    "start:mock-api": "json-server -p 3007 -w data/db.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -27,6 +29,7 @@
     "@ngrx/entity": "^15.2.1",
     "@ngrx/store": "^15.2.1",
     "@ngrx/store-devtools": "^15.2.1",
+    "dexie": "^3.2.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
@@ -47,6 +50,7 @@
     "autoprefixer": "^10.4.13",
     "eslint": "^8.33.0",
     "jasmine-core": "~4.5.0",
+    "json-server": "^0.17.2",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
@@ -58,6 +62,7 @@
     "puppeteer": "^19.7.1",
     "shx": "^0.3.4",
     "tailwindcss": "^3.2.6",
-    "typescript": "~4.8.2"
+    "typescript": "~4.8.2",
+    "workbox-cli": "^6.5.4"
   }
 }
