@@ -3,12 +3,18 @@
   importScripts('dexie.min.js');
 
   let searchLogApi;
+  let dbVersion;
 
   const db = new Dexie('offline-db');
-  let dbVersion;
 
   self.addEventListener('activate', (event) => {
     event.waitUntil(self.clients.claim());
+  });
+
+  self.addEventListener('sync', (event) => {
+    if (searchLogApi && dbVersion) {
+      event.waitUntil(serverSync(event.source));
+    }
   });
 
   self.addEventListener('message', (event) => {
