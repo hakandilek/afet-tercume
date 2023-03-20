@@ -35,10 +35,11 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked, A
     private localeService: LocaleService
   ) {
     this.locale = this.localeService.currentUiLocale();
-    this.terms$ = this.select().pipe(tap((d) => {
-      if (d.length > 0) {
-        this.loading = false;
-      }
+    this.terms$ = this.select().pipe(
+      tap((d) => {
+        if (d.length > 0) {
+          this.loading = false;
+        }
     }));
     this.selectedSource$ = this.languageService.getLanguageSelectionView().pipe(
       takeUntil(this.destroy$),
