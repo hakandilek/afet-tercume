@@ -3,7 +3,6 @@ import { By } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import type { LanguageInfoView } from '../language';
 import type { State } from '../reducers';
 import { languageData, SupportedTranslationLocales } from '../shared/i18n';
 import { SharedModule } from '../shared/shared.module';
@@ -31,15 +30,6 @@ const createDummyState = () => {
   }};
   return entityState;
 };
-
-const createDummyLanguageView = (local: SupportedTranslationLocales) => {
-  const localeDetail = languageData[SupportedTranslationLocales.en];
-  return {
-    isoCode: local,
-    originName: localeDetail.otherLanguageNames[local],
-    translatedName: localeDetail.otherLanguageNames[local]
-  } as LanguageInfoView;
-}
 
 describe('TermListComponent', () => {
   let component: TermListComponent;

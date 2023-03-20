@@ -39,8 +39,7 @@ import { OfflineService } from './services/offline.service';
     ServiceWorkerModule.register('service-worker-loader.js', {
       // By default service workers are disabled on dev mode
       // This setting should be set to true to do development on service-workers itself
-      // TODO fix this after development
-      enabled: true, // !isDevMode(),
+      enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable'

@@ -12,10 +12,5 @@ export class AppDB extends Dexie {
     this.version(dbVersion).stores({
       searchLog: '&id, searchTerm, sourceLocale, targetLocale, created, synced'
     });
-    this.on('populate', () => this.populate());
-  }
-
-  async populate() {
-    // populate if needed
   }
 }

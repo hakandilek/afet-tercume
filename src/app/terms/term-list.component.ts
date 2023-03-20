@@ -8,7 +8,6 @@ import { Term } from './term';
 import { LocaleService, UiLocale } from '../shared/i18n';
 import { LanguageInfoView, LanguageService } from '../language';
 import { HeaderTemplate, HeaderState, HeaderService } from '../header';
-import { OfflineService } from '../services/offline.service';
 
 @Component({
   selector: 'app-term-list',

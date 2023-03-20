@@ -17,12 +17,11 @@ export class TermsService {
     private http: HttpClient,
     private db: AppDB,
     private offlineService: OfflineService
-    ) {}
+  ) {}
 
   getAll(): Observable<Term[]> {
     return this.http.get<TermsResponse>(environment.termsUrl)
       .pipe(
-        tap((response) => {console.log('get TERMS Tap TAP', response)}),
         mergeMap(response => response.values),
         map((values) => {
           const translations: Record<SupportedTranslationLocales, string> = {
@@ -95,12 +94,6 @@ export interface SearchNoResultLog {
   trm: string;
   src: SupportedTranslationLocales;
   trg: SupportedTranslationLocales;
-}
-
-interface GoogleSheetsWriteRequest<T> {
-  range: string;
-  majorDimension: 'ROWS' | 'COLUMNS',
-  values: T[]
 }
 
 interface SheetDbWriteRequest<T> {

@@ -7,20 +7,13 @@
   const db = new Dexie('offline-db');
   let dbVersion;
 
-  self.addEventListener('install', (event) => {
-    console.log('INSTALL:', event);
-  });
   self.addEventListener('activate', (event) => {
-    console.log('ACTIVATE:', event, 'clientid:', event.clientId);
-    const claimPromise = self.clients.claim();
-    claimPromise.then(cl => console.log('clm promise', cl));
-    event.waitUntil(claimPromise);
+    event.waitUntil(self.clients.claim());
   });
 
   self.addEventListener('message', (event) => {
-    console.log('MESSSAGE:', event);
     if (!event?.data?.type) {
-      // not a managed message;
+      // unexpected message data-model;
       return;
     }
     const message = event.data;
@@ -37,7 +30,6 @@
   });
 
   async function serverSync() {
-    console.log('SERVER SYNC STARTING...');
     if (!searchLogApi || !dbVersion) {
       return Promise.reject('sync failed: config missing in sw');
     }
@@ -76,9 +68,6 @@
     });
 
     if (response.status === 200 || response.status === 201 || response.status === 204) {
-      const sync = await response.json();
-      console.log('SYNC response', sync);
-
       const syncTime = new Date();
       toSend.forEach(row => row.synced = syncTime.toISOString());
       await db.transaction('rw', db.searchLog, async () => {
@@ -93,9 +82,7 @@
 
   async function notifyClients() {
     const clients = await self.clients.matchAll({includeUncontrolled: true});
-    console.log('SW NOTIFYCLIENTS clients:', clients);
     for (const client of clients) {
-      console.log('notifyclient sync_finished');
       client.postMessage('sync_finished');
     }
   }
