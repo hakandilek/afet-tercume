@@ -1,8 +1,9 @@
 import { ApplicationRef, Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { concat, interval, lastValueFrom, ReplaySubject } from 'rxjs';
+import { concat, firstValueFrom, interval, ReplaySubject } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { SwCheckForUpdates, SwConfig, SwMessage } from '../messages';
 import { dbVersion } from '../shared/storage/db';
 
 @Injectable({providedIn: 'root'})
@@ -10,7 +11,7 @@ export class OfflineService {
   private serviceWorker$: ReplaySubject<ServiceWorker> = new ReplaySubject<ServiceWorker>(1);
   private appIsStable$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
-  constructor(appRef: ApplicationRef, swUpdate: SwUpdate) {
+  constructor(appRef: ApplicationRef, private swUpdate: SwUpdate) {
     // Allow the app to stabilize first, before starting
     // polling for updates with `interval()`.
     // every time a service-worker re-registered it will also trigger a 'sync' event
@@ -20,16 +21,19 @@ export class OfflineService {
     const everyDay = interval(24 * 60 * 60 * 1000);
     const everyDayOnceAppIsStable$ = concat(this.appIsStable$, everyDay);
 
+    // Get service worker to subject.
+    // Sent env. vars to service worker
+    this.appIsStable$.pipe(first()).subscribe(async () => {
+      await this.setServiceWorker();
+      await this.dispatchMessage(new SwConfig(
+        environment.searchLogApi,
+        dbVersion
+      ));
+    });
+
     everyDayOnceAppIsStable$.subscribe(async () => {
-      try {
-        const updateFound = await swUpdate.checkForUpdate();
-
-        await this.checkForDataUpdates();
-        // console.log(updateFound ? 'A new version is available.' : 'Already on the latest version.');
-
-      } catch (err) {
-        console.error('Failed to check for updates:', err);
-      }
+      await this.checkForAppUpdate();
+      await this.checkForDataUpdates();
     });
   }
 
@@ -51,6 +55,16 @@ export class OfflineService {
     return 'serviceWorker' in navigator;
   }
 
+  private async checkForAppUpdate(): Promise<void> {
+    // if update found refresh the page to get changes
+    // if server is unreachable it won't refresh the page
+    const updateFound = await this.swUpdate.checkForUpdate();
+      if (updateFound) {
+        document.location.reload();
+        return;
+      }
+  }
+
   private async setServiceWorker(): Promise<void> {
     if (navigator?.serviceWorker?.controller) {
       const registration = await navigator.serviceWorker.ready;
@@ -65,23 +79,7 @@ export class OfflineService {
   }
 
   private async dispatchMessage(message: SwMessage): Promise<void> {
-    const serviceWorker = await lastValueFrom(this.serviceWorker$);
+    const serviceWorker = await firstValueFrom(this.serviceWorker$);
     serviceWorker.postMessage(message);
   }
-}
-
-interface SwMessage {
-  type: string;
-}
-
-class SwConfig implements SwMessage {
-  readonly type = 'SwConfig';
-  constructor(
-    public searchLogApi: string,
-    public dbVersion: number
-  ) {}
-}
-
-class SwCheckForUpdates implements SwMessage {
-  readonly type = 'SwCheckForUpdates';
 }

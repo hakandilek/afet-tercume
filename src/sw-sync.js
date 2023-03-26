@@ -7,10 +7,6 @@
 
   const db = new Dexie('offline-db');
 
-  self.addEventListener('activate', (event) => {
-    event.waitUntil(self.clients.claim());
-  });
-
   self.addEventListener('sync', (event) => {
     if (searchLogApi && dbVersion) {
       event.waitUntil(serverSync(event.source));
@@ -27,27 +23,36 @@
       case 'SwConfig':
         searchLogApi = message.searchLogApi;
         dbVersion = message.dbVersion;
-        event.waitUntil(serverSync());
+        if (dbVersion) {
+          event.waitUntil(initDb());
+        }
         break;
-
+      case 'SwCheckForUpdates':
+        if (searchLogApi) {
+          event.waitUntil(serverSync());
+        }
       default:
         break;
     }
   });
+  async function initDb() {
+    await db.version(1).stores({
+      searchLog: '&id, searchTerm, sourceLocale, targetLocale, created, synced',
+      syncs: '&id, lastSync'
+    });
+  }
 
   async function serverSync() {
     if (!searchLogApi || !dbVersion) {
       return Promise.reject('sync failed: config missing in sw');
     }
-    db.version(1).stores({
-      searchLog: '&id, searchTerm, sourceLocale, targetLocale, created, synced',
-      syncs: '&id, lastSync'
-    });
-    db.open();
+
+    await db.open();
     const toSend = await db.searchLog
       .filter(searchLog => !searchLog.synced).toArray();
 
     if (!toSend.length) {
+      await db.close();
       return notifyClients();
     }
 
@@ -59,7 +64,6 @@
       };
     });
 
-    // const response = await fetch('http://localhost:3007/searchLog', {
     const response = await fetch(searchLogApi, {
       method: 'POST',
       headers: {
@@ -79,10 +83,10 @@
       await db.transaction('rw', db.searchLog, async () => {
         await db.searchLog.bulkDelete(toSend.map(n => n.id));
       });
-
+      await db.close();
       return notifyClients();
     }
-
+    await db.close();
     return Promise.reject('sync failed: ' + response.status);
   }
 
