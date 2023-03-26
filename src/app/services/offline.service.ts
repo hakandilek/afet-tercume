@@ -23,7 +23,7 @@ export class OfflineService {
 
     // Get service worker to subject.
     // Sent env. vars to service worker
-    this.appIsStable$.pipe(first()).subscribe(async () => {
+    this.appIsStable$.subscribe(async () => {
       await this.setServiceWorker();
       await this.dispatchMessage(new SwConfig(
         environment.searchLogApi,
@@ -37,20 +37,6 @@ export class OfflineService {
     });
   }
 
-  public async initServiceWorker(): Promise<void> {
-    this.appIsStable$.subscribe((isStable) => {
-      if (!isStable) {
-        return;
-      }
-      this.setServiceWorker().then(() => {
-        this.dispatchMessage(new SwConfig(
-          environment.searchLogApi,
-          dbVersion
-        ));
-      });
-    });
-  }
-
   public serviceWorkerSupported(): boolean {
     return 'serviceWorker' in navigator;
   }
@@ -60,9 +46,13 @@ export class OfflineService {
     // if server is unreachable it won't refresh the page
     const updateFound = await this.swUpdate.checkForUpdate();
       if (updateFound) {
-        document.location.reload();
+        this.reloadPage();
         return;
       }
+  }
+
+  private reloadPage(): void {
+    document.location.reload();
   }
 
   private async setServiceWorker(): Promise<void> {
