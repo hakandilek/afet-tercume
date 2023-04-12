@@ -16,7 +16,7 @@ Dokumantasyon: https://docs.sheetdb.io/quickstart
 json-server kutuphanesi tarafindan sunulan, gelen istekleri dosyaya yazan bir mock backend,
 mock backend'i ayaga kaldirma:
 `npm run start:mock-api`
-post isteklerininj kaydedildigi dosyanin yolu:
+post isteklerinin kaydedildigi dosyanin yolu:
 `data/db.json`
 
 Service Worker uzerinde gelistirmesi yaparken, service worker dosyalarinin browsera register/unregister olmasi zaman aldigindan, 
