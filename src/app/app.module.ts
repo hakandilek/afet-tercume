@@ -16,6 +16,7 @@ import { TermsEffects } from './terms/reducer/terms.effects';
 import { TermListComponent } from './terms/term-list.component';
 import { TermsModule } from './terms/terms.module';
 import { LanguageComponent } from './language/language.component';
+import { OfflineService } from './services/offline.service';
 
 @NgModule({
   declarations: [
@@ -35,16 +36,18 @@ import { LanguageComponent } from './language/language.component';
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     TermsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
+    ServiceWorkerModule.register('service-worker-loader.js', {
       // By default service workers are disabled on dev mode
       // This setting should be set to true to do development on service-workers itself
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWithDelay:5000'
+      registrationStrategy: 'registerWhenStable'
     }),
   ],
-  providers: [],
+  providers: [
+    OfflineService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

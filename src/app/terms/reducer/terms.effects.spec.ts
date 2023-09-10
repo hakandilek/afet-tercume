@@ -1,7 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
+import { MockOfflineService } from 'src/app/services/mock-offline.service';
+import { OfflineService } from 'src/app/services/offline.service';
 
 import { TermsEffects } from './terms.effects';
 
@@ -15,8 +18,13 @@ describe('TermsEffects', () => {
         HttpClientTestingModule,
       ],
       providers: [
+        {
+          provide: OfflineService,
+          useValue: MockOfflineService
+        } as Provider,
         TermsEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+
       ]
     });
 

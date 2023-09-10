@@ -25,18 +25,43 @@
           "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
         ]
       }
+    },
+    {
+      "name": "dev-artifacts",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/*.map"
+        ]
+      }
     }
   ],
   "dataGroups": [
     {
+      "name": "vendor-assets",
+      "urls": [
+        "https://fonts.googleapis.com/**",
+        "https://fonts.gstatic.com/s/**"
+      ],
+      "cacheConfig": {
+        "maxSize": 3,
+        "maxAge": "10d",
+        "timeout": "20s",
+        "strategy": "performance",
+        "cacheOpaqueResponses": true
+      }
+    },
+    {
       "name": "sheet-api",
       "urls": [
-        "https://sheets.googleapis.com/v4/spreadsheets/**"
+        "https://sheets.googleapis.com/v4/spreadsheets/**",
+
+        "http://localhost:3007/**"
       ],
       "cacheConfig": {
         "maxSize": 10,
-        "maxAge": "1d",
-        "timeout": "10s",
+        "maxAge": "10d",
+        "timeout": "20s",
         "strategy": "performance",
         "cacheOpaqueResponses": true
       }

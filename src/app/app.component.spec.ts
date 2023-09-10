@@ -1,9 +1,12 @@
+import { Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
+import { MockOfflineService } from './services/mock-offline.service';
+import { OfflineService } from './services/offline.service';
 import { SharedModule } from './shared/shared.module';
 import { reducer } from './terms/reducer';
 
@@ -19,6 +22,12 @@ describe('AppComponent', () => {
         AppComponent,
         HeaderComponent,
       ],
+      providers: [
+        {
+          provide: OfflineService,
+          useClass: MockOfflineService
+        } as Provider
+      ]
     }).compileComponents();
   });
 

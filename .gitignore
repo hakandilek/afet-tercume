@@ -44,3 +44,6 @@ Thumbs.db
 
 # Test reports
 /report
+
+# Dummy Data
+db.json

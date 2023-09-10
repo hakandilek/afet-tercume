@@ -21,7 +21,7 @@ export const englishUi: UiLocaleData = {
     termsPage: {
       dataLoadingMessage: 'Data loading',
       dataLoadingMessageDetail: 'Please wait until the term list is loaded.',
-      noResultMessage: 'No result',
+      noResultMessage: 'No result found',
       searchPlaceholder: 'Search keyword'
     }
   }

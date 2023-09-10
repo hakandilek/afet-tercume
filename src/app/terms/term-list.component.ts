@@ -1,8 +1,8 @@
 import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { debounceTime, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { State } from '../reducers';
-import { loadTerms } from './reducer/terms.actions';
+import { loadTerms, logNoResultSearch } from './reducer/terms.actions';
 import { selectAndSortWithSearchTerm } from './reducer/terms.selector';
 import { Term } from './term';
 import { LocaleService, UiLocale } from '../shared/i18n';
@@ -24,6 +24,8 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked, A
   public selectedSource$: Observable<LanguageInfoView>;
   public selectedTarget$: Observable<LanguageInfoView>;
   public locale: UiLocale;
+  public loading = true;
+  public showNoResultMessage = false;
   private destroy$ = new Subject<void>();
   constructor(
     private store: Store<State>,
@@ -33,7 +35,12 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked, A
     private localeService: LocaleService
   ) {
     this.locale = this.localeService.currentUiLocale();
-    this.terms$ = this.select();
+    this.terms$ = this.select().pipe(
+      tap((d) => {
+        if (d.length > 0) {
+          this.loading = false;
+        }
+    }));
     this.selectedSource$ = this.languageService.getLanguageSelectionView().pipe(
       takeUntil(this.destroy$),
       map(selection => {
@@ -64,7 +71,6 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked, A
     .pipe(
       takeUntil(this.destroy$),
       map(languageSelection => {
-      // TODO lang file label here
       return {
         template: HeaderTemplate.search,
         data: `${languageSelection.sourceLanguage.originName} > ${languageSelection.targetLanguage.originName}`
@@ -89,7 +95,30 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked, A
 
   select(): Observable<Term[]> {
     const currentLanguageSelection = this.languageService.getCurrentLanguageSelectionView();
-    return this.terms$ = this.store.select(selectAndSortWithSearchTerm(this.searchTerm, currentLanguageSelection.sourceLanguage.isoCode, currentLanguageSelection.targetLanguage.isoCode));
+    this.showNoResultMessage = false;
+    return this.terms$ = this.store.select(selectAndSortWithSearchTerm(
+      this.searchTerm,
+      currentLanguageSelection.sourceLanguage.isoCode,
+      currentLanguageSelection.targetLanguage.isoCode
+    )).pipe(
+      debounceTime(1000),
+      tap(d => {
+        if (d.length === 0) {
+          this.noResultEffect();
+        } else {
+          this.showNoResultMessage = false;
+        }
+      }));
+  }
+
+  noResultEffect(): void {
+    this.showNoResultMessage = true;
+    const current = this.languageService.getCurrentLanguageSelectionView();
+    this.store.dispatch(logNoResultSearch({
+      keyword: this.searchTerm,
+      sourceLocale: current.sourceLanguage.isoCode,
+      targetLocale: current.targetLanguage.isoCode
+    }));
   }
 
 }

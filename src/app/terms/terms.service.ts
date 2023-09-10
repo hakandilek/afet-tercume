@@ -1,21 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Term, TermsResponse } from './term';
-import { filter, map, mergeMap, toArray } from 'rxjs/operators';
+import { filter, map, mergeMap, tap, toArray } from 'rxjs/operators';
 import { SupportedTranslationLocales } from '../shared/i18n';
+import { AppDB } from '../shared/storage/db';
+import { SearchLog } from '../shared/models/search-log.model';
+import { OfflineService } from '../services/offline.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TermsService {
-
-  http: HttpClient;
-
-  constructor(http: HttpClient) {
-    this.http = http;
-  }
+  constructor(
+    private http: HttpClient,
+    private db: AppDB,
+    private offlineService: OfflineService
+  ) {}
 
   getAll(): Observable<Term[]> {
     return this.http.get<TermsResponse>(environment.termsUrl)
@@ -58,4 +60,44 @@ export class TermsService {
       );
   }
 
+  createSearchNoResultLog(keyword: string, originLocale: SupportedTranslationLocales, targetLocale: SupportedTranslationLocales): Observable<void> {
+    if (!keyword) {
+      return of(void 0);
+    }
+    // TODO change the url and the api call according to new sheet
+    const searchLog: SearchLog = {
+      created: new Date(),
+      searchTerm: keyword,
+      sourceLocale: originLocale,
+      targetLocale: targetLocale,
+      id: `${originLocale}:${keyword}`
+    };
+    console.log('Saving to DB: ', keyword);
+    if (this.offlineService.serviceWorkerSupported()) {
+      this.db.searchLog.put(searchLog, searchLog.id);
+      return of(void 0);
+    } else {
+      // service worker not supported therefor making direct request
+      return this.http.post<void>(environment.searchLogApi, {
+        data: [{
+          trm: keyword,
+          src: originLocale,
+          trg: targetLocale
+        }],
+        mode: 'RAW',
+        sheet: 'rawdata'
+      } as SheetDbWriteRequest<SearchNoResultLog>);
+    }
+  }
+}
+export interface SearchNoResultLog {
+  trm: string;
+  src: SupportedTranslationLocales;
+  trg: SupportedTranslationLocales;
+}
+
+interface SheetDbWriteRequest<T> {
+  sheets?: string,
+  mode?: 'RAW' | 'USER_ENTERED',
+  data: T[]
 }
