@@ -19,14 +19,17 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked, A
 
   @ViewChild("search") searchInputField!: ElementRef<HTMLInputElement>
 
-  searchTerm = ''
-  terms$: Observable<Term[]>;
+  public searchTerm = ''
+  public terms$: Observable<Term[]>;
   public selectedSource$: Observable<LanguageInfoView>;
   public selectedTarget$: Observable<LanguageInfoView>;
   public locale: UiLocale;
   public loading = true;
   public showNoResultMessage = false;
+  public focusIndex: number | undefined;
+
   private destroy$ = new Subject<void>();
+
   constructor(
     private store: Store<State>,
     private headerService: HeaderService,
@@ -87,6 +90,14 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked, A
 
   ngAfterViewInit() {
     this.searchInputField?.nativeElement?.focus();
+  }
+
+  onClick(index: number) {
+    if (index === this.focusIndex) {
+      this.focusIndex = undefined;
+    } else {
+      this.focusIndex = index;
+    }
   }
 
   onSearch() {

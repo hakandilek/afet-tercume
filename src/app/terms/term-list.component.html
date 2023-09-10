@@ -36,7 +36,7 @@
     <div>
       <mat-list *ngIf="(terms$ | async) as terms">
         <mat-list-item class="line-item" *ngFor="let term of terms; let i = index">
-          <div tabindex="1" class="focusable-container">
+          <div tabindex="1" class="focusable-container" [class.focused]="i === focusIndex" (click)="onClick(i)">
             <span matListItemLine>
               <span class="search-initial" *ngIf="!!term.initial">
                 {{term.initial}}
