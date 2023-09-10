@@ -37,7 +37,25 @@ export class TermsService {
             [SupportedTranslationLocales.el]: values[11],
             [SupportedTranslationLocales.ja]: values[12],
             [SupportedTranslationLocales.he]: values[13],
-            [SupportedTranslationLocales.it]: values[14]
+            [SupportedTranslationLocales.it]: values[14],
+            [SupportedTranslationLocales.hy]: values[15],
+            [SupportedTranslationLocales.nl]: values[16],
+            [SupportedTranslationLocales.zhHans]: values[17],
+            [SupportedTranslationLocales.zhHant]: values[18],
+            [SupportedTranslationLocales.bg]: values[19],
+            [SupportedTranslationLocales.ko]: values[20],
+            [SupportedTranslationLocales.fa]: values[21],
+            [SupportedTranslationLocales.hi]: values[22],
+            [SupportedTranslationLocales.pt]: values[23],
+            [SupportedTranslationLocales.sv]: values[24],
+            [SupportedTranslationLocales.ro]: values[25],
+            [SupportedTranslationLocales.sr]: values[26],
+            [SupportedTranslationLocales.mk]: values[27],
+            [SupportedTranslationLocales.hu]: values[28],
+            [SupportedTranslationLocales.fi]: values[29],
+            [SupportedTranslationLocales.sq]: values[30],
+            [SupportedTranslationLocales.cs]: values[31],
+            [SupportedTranslationLocales.pl]: values[32],
           };
           // TODO add missing languages
           // translations.set("հայերեն", values[15]);

@@ -17,6 +17,24 @@ export const zaza: LanguageDetails = {
     ku: 'Kırdaski',
     ru: 'Orıski',
     tr: 'Tırki',
-    zza: 'Zazaki'
+    zza: 'Zazaki',
+    hy: 'Êrmenki',
+    nl: 'Dutch', // TODO -- Olandek
+    zhHans: 'Çînki',
+    zhHant: 'Chinese Traditional', // TODO fıx Chinese Traditional
+    bg: 'Bulgarian', // TODO Bulgarian
+    ko: 'Korean', // Korean -- Koreano
+    fa: 'Fariskî',
+    hi: 'Hindi', // TODO fix translation Hindi
+    pt: 'Portugalkî',
+    sv: 'İsweçki',
+    ro: 'Romanian', // TODO fix translation Romanian
+    sr: 'Serbian', // TODO fix translation Serbian
+    mk: 'Macedonian', // TODO fix translation Macedonian
+    hu: 'Hungarian', // TODO fix translation Hungarian -- Magyar
+    fi: 'Finnish', // TODO fix translationFinnish
+    sq: 'Albanian', // Albanian -- Albanese
+    cs: 'Czech', // TODO fix translation
+    pl: 'Polish' // TODO fix translation -- Polşa
   }
 }
