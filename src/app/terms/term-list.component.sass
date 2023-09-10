@@ -66,12 +66,12 @@
 .focusable-container
   background-color: #2d2d2d
 
-.focusable-container:focus-within
+.focusable-container.focused
   display: flex
   flex-direction: column
   background-color: #231C3B
-  
-.focusable-container:focus .search-result-detail
+
+.focusable-container.focused .search-result-detail
   font-size: 48px
 
 mat-card
