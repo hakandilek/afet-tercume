@@ -58,7 +58,7 @@
     "karma-jasmine-html-reporter": "~2.0.0",
     "karma-junit-reporter": "^2.0.1",
     "karma-spec-reporter": "^0.0.36",
-    "postcss": "^8.4.21",
+    "postcss": "^8.4.31",
     "puppeteer": "^24.6.1",
     "shx": "^0.3.4",
     "tailwindcss": "^3.2.6",
