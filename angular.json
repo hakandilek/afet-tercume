@@ -82,10 +82,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "afet-terim:build:production"
+              "buildTarget": "afet-terim:build:production"
             },
             "development": {
-              "browserTarget": "afet-terim:build:development"
+              "buildTarget": "afet-terim:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -93,7 +93,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "afet-terim:build"
+            "buildTarget": "afet-terim:build"
           }
         },
         "test": {
