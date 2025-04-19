@@ -23,7 +23,7 @@ jobs:
         with:
           files: |
             report/test/unit-test.xml
-      - uses: romeovs/lcov-reporter-action@v0.3.1
+      - uses: romeovs/lcov-reporter-action@v0.4.0
         with:
           lcov-file: ./report/coverage/report-lcov/lcov.info
           github-token: ${{ github.token }}
