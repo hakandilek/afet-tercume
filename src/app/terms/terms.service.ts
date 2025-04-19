@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Term, TermsResponse } from './term';
-import { filter, map, mergeMap, tap, toArray } from 'rxjs/operators';
+import { filter, map, mergeMap, toArray } from 'rxjs/operators';
 import { SupportedTranslationLocales } from '../shared/i18n';
 import { AppDB } from '../shared/storage/db';
 import { SearchLog } from '../shared/models/search-log.model';

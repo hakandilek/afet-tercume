@@ -63,9 +63,10 @@ export class TermListComponent implements OnInit, OnDestroy, AfterViewChecked, A
   ngOnInit(): void {
     this.store.dispatch(loadTerms());
     if ('virtualKeyboard' in navigator) {
-      const newVariable: any = window.navigator;
-      newVariable.virtualKeyboard.show(),
-      newVariable.virtualKeyboard.overlaysContent = true;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const nav: any = window.navigator;
+      nav.virtualKeyboard.show(),
+      nav.virtualKeyboard.overlaysContent = true;
     } else {
       // alert('virtual keyboard is not supported');
     }
