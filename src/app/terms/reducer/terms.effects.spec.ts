@@ -9,6 +9,7 @@ import { OfflineService } from 'src/app/services/offline.service';
 import { TermsEffects } from './terms.effects';
 
 describe('TermsEffects', () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let actions$: Observable<any>;
   let effects: TermsEffects;
 

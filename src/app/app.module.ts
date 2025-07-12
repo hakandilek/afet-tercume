@@ -34,7 +34,7 @@ import { OfflineService } from './services/offline.service';
       TermsEffects,
     ]),
     StoreModule.forRoot(reducers, { metaReducers }),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production , connectInZone: true}),
     TermsModule,
     ServiceWorkerModule.register('service-worker-loader.js', {
       // By default service workers are disabled on dev mode

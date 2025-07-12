@@ -41,7 +41,7 @@ describe('AppComponent', () => {
 
     const titleService = TestBed.inject(Title);
     const spy = spyOn(titleService, 'setTitle');
-    const fixture = TestBed.createComponent(AppComponent);
+    TestBed.createComponent(AppComponent);
     expect(spy).toHaveBeenCalledWith('Afet Terimleri');
   });
 
